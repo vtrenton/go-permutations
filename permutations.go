@@ -4,6 +4,20 @@ import (
 	"fmt"
 )
 
+func main() {
+	scale := 6
+	var nums []int
+	// 1.22 for loop
+	// note the +1 on the append
+	for i := range scale {
+		nums = append(nums, i+1)
+	}
+	permutations := permute(nums)
+	for _, p := range permutations {
+		fmt.Println(p)
+	}
+}
+
 func permute(nums []int) [][]int {
 	var result [][]int
 	permuteHelper(nums, []int{}, &result)
@@ -39,18 +53,4 @@ func contains(slice []int, val int) bool {
 		}
 	}
 	return false
-}
-
-func main() {
-	scale := 6
-	var nums []int
-	// 1.22 for loop
-	// note the +1 on the append
-	for i := range scale {
-		nums = append(nums, i+1)
-	}
-	permutations := permute(nums)
-	for _, p := range permutations {
-		fmt.Println(p)
-	}
 }
