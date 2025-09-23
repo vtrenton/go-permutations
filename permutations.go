@@ -4,45 +4,50 @@ import (
 	"fmt"
 )
 
-func main() {
-	scale := 6
-	var nums []int
-	// 1.22 for loop
-	// note the +1 on the append
-	for i := range scale {
-		nums = append(nums, i+1)
-	}
-	permutations := permute(nums)
-	for _, p := range permutations {
-		fmt.Println(p)
-	}
+type PermutationGenerator struct {
+	nums    []int
+	current []int
+	result  [][]int
 }
 
-func permute(nums []int) [][]int {
-	var result [][]int
-	permuteHelper(nums, []int{}, &result)
-	return result
+func (pg *PermutationGenerator) Generate() [][]int {
+	pg.permuteHelper()
+	return pg.result
 }
 
-func permuteHelper(nums []int, current []int, result *[][]int) {
-	if len(current) == len(nums) {
+func (pg *PermutationGenerator) permuteHelper() {
+	if len(pg.current) == len(pg.nums) {
 		// Make a copy of the current slice, as slices are reference types
-		temp := make([]int, len(current))
-		copy(temp, current)
-		*result = append(*result, temp)
+		temp := make([]int, len(pg.current))
+		copy(temp, pg.current)
+		pg.result = append(pg.result, temp)
 		return
 	}
 
-	for _, num := range nums {
-		if contains(current, num) {
+	for _, num := range pg.nums {
+		if contains(pg.current, num) {
 			continue
 		}
 		// Choose
-		current = append(current, num)
+		pg.current = append(pg.current, num)
 		// Explore
-		permuteHelper(nums, current, result)
+		pg.permuteHelper()
 		// Unchoose (backtrack)
-		current = current[:len(current)-1]
+		pg.current = pg.current[:len(pg.current)-1]
+	}
+}
+
+func main() {
+	scale := 6
+	var nums []int
+	for i := range scale {
+		nums = append(nums, i+1)
+	}
+
+	pg := PermutationGenerator{nums: nums}
+	permutations := pg.Generate()
+	for _, p := range permutations {
+		fmt.Println(p)
 	}
 }
 
