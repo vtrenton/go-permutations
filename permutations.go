@@ -5,6 +5,14 @@ import (
 	"slices"
 )
 
+// Math fun fact:
+// The size of the inner list (how many permutations exist)
+// is equal to n! - that is the factorial of the input numbers
+// for example 5! = 120
+// Try this yourself by updating the scale in main
+// The pipe the output of this program into wc -l
+// ./permutations | wc -l
+
 type PermutationGenerator struct {
 	nums   []int
 	result [][]int
@@ -37,7 +45,7 @@ func (pg *PermutationGenerator) generator(current []int) {
 }
 
 func main() {
-	scale := 6
+	scale := 5
 	// create object to track global state
 	var pg PermutationGenerator
 
